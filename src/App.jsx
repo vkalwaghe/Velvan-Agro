@@ -14,6 +14,9 @@ import NotFound from './components/NotFound'
 import { CartProvider } from './contexts/CartContext'
 import './App.css'
 
+import AdminLogin from "./pages/Admin/Login";
+import AdminDashboard from "./pages/Admin/Dashboard";
+
 export default function App() {
   return (
     <CartProvider>
@@ -31,6 +34,10 @@ export default function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="*" element={<NotFound />} />
+
+             {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>
