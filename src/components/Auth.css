@@ -1,0 +1,149 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* WRAPPER */
+.agro-auth-wrapper {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  transition: background 0.8s ease;
+}
+
+/* STATES */
+.agro-auth-wrapper.login {
+  background: linear-gradient(135deg, #ecfdf5, #bbf7d0);
+}
+
+.agro-auth-wrapper.register {
+  background: #f0fdf4;
+}
+
+/* 🔺 TRIANGLE */
+.agro-triangle {
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(135deg, #16a34a, #14532d);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  transition: all 1s ease;
+  z-index: 1;
+}
+
+.agro-auth-wrapper.register .agro-triangle {
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+  transform: rotate(180deg);
+  background: linear-gradient(135deg, #22c55e, #14532d);
+}
+
+/* CENTER */
+.agro-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 💎 CARD */
+.agro-card {
+  width: 400px;
+  padding: 40px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.25);
+
+  box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+}
+
+/* TITLE */
+.agro-card h2 {
+  margin-bottom: 25px;
+  text-align: center;
+  color: #14532d;
+}
+
+/* INPUT */
+.agro-input {
+  position: relative;
+  margin-bottom: 18px;
+
+}
+
+.agro-input input,
+.agro-input select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  gap: 24px; /* 👈 increase this (20–28px ideal) */
+
+  background: rgba(255,255,255,0.9);
+}
+
+/* LABEL */
+.agro-input label {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  font-size: 14px;
+  color: #555;
+  transition: 0.3s;
+  pointer-events: none;
+}
+
+/* FLOAT EFFECT */
+.agro-input input:focus + label,
+.agro-input input:valid + label,
+.agro-input select:focus + label,
+.agro-input select:valid + label {
+  top: -8px;
+  font-size: 12px;
+  color: #16a34a;
+}
+
+/* BUTTON */
+.agro-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: white;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.agro-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(34,197,94,0.4);
+}
+
+/* SWITCH */
+.agro-switch {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.agro-switch span {
+  color: #16a34a;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .agro-card {
+    width: 90%;
+    padding: 25px;
+  }
+}
