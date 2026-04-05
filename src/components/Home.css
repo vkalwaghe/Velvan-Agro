@@ -1,0 +1,42 @@
+.home__intro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+
+/* CARD */
+
+.intro-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.intro-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+
+.intro-card h2 {
+  color: #1c4d2b;
+  margin-bottom: 10px;
+}
+
+
+.intro-card ul,
+.intro-card ol {
+  padding-left: 20px;
+}
+
+
+.intro-card li {
+  margin-bottom: 8px;
+  color: #444;
+  font-size: 15px;
+}

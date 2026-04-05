@@ -1,0 +1,44 @@
+.divisions {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(#f3f7f3, #e6efe6);
+}
+
+.divisions__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.division-card {
+  border-radius: 15px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.division-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.division-card__image {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+}
+
+.division-card__body {
+  padding: 15px;
+  text-align: center;
+}
+
+.division-card h2 {
+  color: #1c4d2b;
+}
+
+.button {
+  margin-top: 10px;
+}
