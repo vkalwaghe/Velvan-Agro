@@ -38,7 +38,7 @@ export default function App() {
   {/* Layout Wrapper */}
   <Route element={<Layout />}>
 
-    <Route path="/" element={<Home />} />
+    <Route path="/home" element={<Home />} />
     <Route path="/products" element={<Products />} />
     <Route path="/divisions" element={<Divisions />} />
     <Route path="/division/:division" element={<DivisionPage />} />

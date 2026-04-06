@@ -1,10 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import "./Auth.css";
-import { useNavigate } from "react-router-dom";
-
 
 export default function Auth() {
+
+  // ✅ FIX: initialize navigate here
+  const navigate = useNavigate();
+
   const [isSignup, setIsSignup] = useState(false);
 
   // 🔥 Form State
@@ -42,15 +45,23 @@ export default function Auth() {
       });
 
       const data = await res.json();
-      const navigate = useNavigate();
 
       if (res.ok) {
-        alert(isSignup ? "Registration Successful 🎉" : "Login Successful ✅");
 
-        // Save user (only for login)
-        if (!isSignup) {
+        // ✅ Signup
+        if (isSignup) {
+          alert("Registration Successful 🎉");
+          setIsSignup(false); // switch to login
+        }
+
+        // ✅ Login
+        else {
+          alert("Login Successful ✅");
+
           localStorage.setItem("user", JSON.stringify(data.user));
-          navigate("/"); // redirect
+
+          // 🔥 REDIRECT WORKS NOW
+          navigate("/home");
         }
 
       } else {
@@ -58,7 +69,7 @@ export default function Auth() {
       }
 
     } catch (error) {
-      console.log(error);
+      console.log("Error:", error);
     }
   };
 
@@ -77,7 +88,6 @@ export default function Auth() {
         >
           <h2>{isSignup ? "Create Account 🌱" : "Welcome Back 🌿"}</h2>
 
-          {/* ✅ FORM CONNECTED */}
           <form onSubmit={handleSubmit}>
 
             {/* SIGNUP EXTRA FIELDS */}
