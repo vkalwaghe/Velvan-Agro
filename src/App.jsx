@@ -26,30 +26,32 @@ export default function App() {
       <BrowserRouter>
         <Routes>
 
-          {/* ✅ Landing page */}
-          <Route path="/" element={<Landing />} />
-          {/* ✅ Auth page */}
-          <Route path="/auth" element={<Auth />} />
-          {/* ✅ Admin Login */}
-          <Route path="/admin-login" element={<AdminLogin />} />  
+  {/* Landing */}
+  <Route path="/" element={<Landing />} />
 
-          {/* ✅ Main app */}
-          <Route path="/home" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="products" element={<Products />} />
-            <Route path="divisions" element={<Divisions />} />
-            <Route path="division/:division" element={<DivisionPage />} />
-            <Route path="dealerships" element={<Dealerships />} />
-            <Route path="cart" element={<CartPage />} />
-            <Route path="order" element={<Order />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="checkout" element={<CheckoutPage />} />
-          </Route>
+  {/* Auth */}
+  <Route path="/auth" element={<Auth />} />
+  <Route path="/admin-login" element={<AdminLogin />} />
 
-          {/* ✅ 404 */}
-          <Route path="*" element={<NotFound />} />
+  {/* Layout Wrapper */}
+  <Route element={<Layout />}>
 
-        </Routes>
+    <Route path="/home" element={<Home />} />
+    <Route path="/products" element={<Products />} />
+    <Route path="/divisions" element={<Divisions />} />
+    <Route path="/division/:division" element={<DivisionPage />} />
+    <Route path="/dealerships" element={<Dealerships />} />
+    <Route path="/cart" element={<CartPage />} />
+    <Route path="/order" element={<Order />} />
+    <Route path="/contact" element={<Contact />} />
+    <Route path="/checkout" element={<CheckoutPage />} />
+
+  </Route>
+
+  {/* 404 */}
+  <Route path="*" element={<NotFound />} />
+
+</Routes>
       </BrowserRouter>
     </CartProvider>
   );

@@ -1,149 +1,149 @@
-import { useEffect, useState } from 'react'
-import { hasSupabaseConfig, supabase } from '../lib/supabaseClient'
+import { useEffect, useState } from "react";
+import { hasSupabaseConfig, supabase } from "../lib/supabaseClient";
+import "./Contact.css";
 
-const STORAGE_KEY = 'velvanAgroContactMessages'
+const STORAGE_KEY = "velvanAgroContactMessages";
 
 function loadMessages() {
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : []
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
   } catch {
-    return []
+    return [];
   }
 }
 
 export default function Contact() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
-  const [saved, setSaved] = useState(false)
-  const [messages, setMessages] = useState(() => loadMessages())
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState('')
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [saved, setSaved] = useState(false);
+  const [messages, setMessages] = useState(() => loadMessages());
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (saved) {
-      const timeout = window.setTimeout(() => setSaved(false), 4000)
-      return () => window.clearTimeout(timeout)
+      const t = setTimeout(() => setSaved(false), 3000);
+      return () => clearTimeout(t);
     }
-  }, [saved])
+  }, [saved]);
 
-  async function saveMessageToSupabase(entry) {
-    const { error } = await supabase
-      .from('contact_messages')
-      .insert([entry])
-      .select()
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
 
-    if (error) throw error
-  }
-
-  async function handleSubmit(event) {
-    event.preventDefault()
-    setError('')
-
-    if (!name.trim() || !email.trim() || !message.trim()) return
+    if (!name || !email || !message) return;
 
     const entry = {
-      name: name.trim(),
-      email: email.trim(),
-      message: message.trim(),
+      name,
+      email,
+      message,
       submitted_at: new Date().toISOString(),
-    }
+    };
 
-    setSaving(true)
+    setSaving(true);
 
     try {
       if (hasSupabaseConfig()) {
-        await saveMessageToSupabase(entry)
+        await supabase.from("contact_messages").insert([entry]);
       }
 
-      const next = [
-        {
-          id: Date.now(),
-          ...entry,
-        },
-        ...messages,
-      ]
+      const next = [{ id: Date.now(), ...entry }, ...messages];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      setMessages(next);
 
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-      setMessages(next)
-      setName('')
-      setEmail('')
-      setMessage('')
-      setSaved(true)
-    } catch (err) {
-      setError('Could not save your message right now. Please try again.')
+      setName("");
+      setEmail("");
+      setMessage("");
+      setSaved(true);
+    } catch {
+      setError("Failed to send message");
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
   }
 
-  const usingSupabase = hasSupabaseConfig()
-
   return (
-    <section className="contact">
-      <h1>Contact Us</h1>
-      <p className="section__lead">
-        Send us a message and we will get back to you shortly.
-        {usingSupabase
-          ? ' Your message is stored securely in the cloud.'
-          : ' Messages are stored locally in your browser.'}
-      </p>
+    <section className="z-contact">
 
-      <form className="contact__form" onSubmit={handleSubmit}>
-        <label>
-          Name
+      {/* LEFT HERO */}
+      <div className="z-contact__left">
+  <div className="overlay">
+
+    <h1>Let’s Grow Together 🌱</h1>
+
+    <p>
+      From seeds to harvest, we support farmers with quality products,
+      expert advice, and reliable service at every step.
+    </p>
+
+    {/* BADGES */}
+    <div className="badges">
+      <span>🌾 50+ Years Experience</span>
+      <span>🚚 Fast Delivery</span>
+      <span>🤝 Trusted by Farmers</span>
+    </div>
+
+    {/* NEW CONTACT INFO */}
+    <div className="contact-extra">
+      <p>📍 Karumathampatti</p>
+      <p>📞 +91 98765 43210</p>
+      <p>✉️ support@velavanagro.com</p>
+      <p>⏰ Mon - Sat | 9 AM - 7 PM</p>
+    </div>
+
+  </div>
+</div>
+
+      {/* RIGHT FLOATING FORM */}
+      <div className="z-contact__right">
+        <form onSubmit={handleSubmit}>
+          <h2>Get in Touch</h2>
+
           <input
             value={name}
-            onChange={(event) => setName(event.target.value)}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your Name"
             required
-            placeholder="Your name"
           />
-        </label>
-        <label>
-          Email
+
           <input
             type="email"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email Address"
             required
-            placeholder="you@example.com"
           />
-        </label>
-        <label>
-          Message
+
           <textarea
             value={message}
-            onChange={(event) => setMessage(event.target.value)}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type your message..."
             required
-            placeholder="How can we help?"
           />
-        </label>
-        <button type="submit" className="button" disabled={saving}>
-          {saving ? 'Saving…' : 'Send message'}
-        </button>
-        {saved && <p className="success">Message saved successfully.</p>}
-        {error && <p className="error">{error}</p>}
-      </form>
 
+          <button disabled={saving}>
+            {saving ? "Sending..." : "Send Message"}
+          </button>
+
+          {saved && <p className="success">✅ Sent successfully</p>}
+          {error && <p className="error">{error}</p>}
+        </form>
+      </div>
+
+      {/* FLOATING HISTORY */}
       {messages.length > 0 && (
-        <section className="contact__history">
-          <h2>Your saved messages</h2>
-          <ul>
-            {messages.map((entry) => (
-              <li key={entry.id}>
-                <div className="contact__meta">
-                  <strong>{entry.name}</strong> • {entry.email}
-                </div>
-                <div className="contact__body">{entry.message}</div>
-                <div className="contact__time">
-                  {new Date(entry.submitted_at || entry.submittedAt).toLocaleString()}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <div className="z-history">
+          {messages.slice(0, 3).map((m) => (
+            <div key={m.id} className="z-history-card">
+              <strong>{m.name}</strong>
+              <p>{m.message}</p>
+            </div>
+          ))}
+        </div>
       )}
+
     </section>
-  )
+  );
 }
