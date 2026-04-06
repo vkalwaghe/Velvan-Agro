@@ -1,9 +1,77 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import "./Auth.css";
 
 export default function Auth() {
+
+  // ✅ FIX: initialize navigate here
+  const navigate = useNavigate();
+
   const [isSignup, setIsSignup] = useState(false);
+
+  // 🔥 Form State
+  const [formData, setFormData] = useState({
+    name: "",
+    number: "",
+    location: "",
+    email: "",
+    password: "",
+  });
+
+  // 🔄 Handle Input Change
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // 🚀 Handle Submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const url = isSignup
+      ? "http://localhost:5000/api/register"
+      : "http://localhost:5000/api/login";
+
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+
+        // ✅ Signup
+        if (isSignup) {
+          alert("Registration Successful 🎉");
+          setIsSignup(false); // switch to login
+        }
+
+        // ✅ Login
+        else {
+          alert("Login Successful ✅");
+
+          localStorage.setItem("user", JSON.stringify(data.user));
+
+          // 🔥 REDIRECT WORKS NOW
+          navigate("/home");
+        }
+
+      } else {
+        alert(data.message);
+      }
+
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   return (
     <div className={`agro-auth-wrapper ${isSignup ? "register" : "login"}`}>
@@ -20,23 +88,23 @@ export default function Auth() {
         >
           <h2>{isSignup ? "Create Account 🌱" : "Welcome Back 🌿"}</h2>
 
-          <form>
+          <form onSubmit={handleSubmit}>
 
             {/* SIGNUP EXTRA FIELDS */}
             {isSignup && (
               <>
                 <div className="agro-input">
-                  <input type="text" required />
+                  <input type="text" name="name" onChange={handleChange} required />
                   <label>Full Name</label>
                 </div>
 
                 <div className="agro-input">
-                  <input type="tel" required />
+                  <input type="tel" name="number" onChange={handleChange} required />
                   <label>Mobile Number</label>
                 </div>
 
                 <div className="agro-input">
-                  <input type="text" required />
+                  <input type="text" name="location" onChange={handleChange} required />
                   <label>Location (Village/City)</label>
                 </div>
               </>
@@ -44,16 +112,16 @@ export default function Auth() {
 
             {/* COMMON */}
             <div className="agro-input">
-              <input type="email" required />
+              <input type="email" name="email" onChange={handleChange} required />
               <label>Email</label>
             </div>
 
             <div className="agro-input">
-              <input type="password" required />
+              <input type="password" name="password" onChange={handleChange} required />
               <label>Password</label>
             </div>
 
-            <button className="agro-btn">
+            <button className="agro-btn" type="submit">
               {isSignup ? "Create Account" : "Login"}
             </button>
           </form>

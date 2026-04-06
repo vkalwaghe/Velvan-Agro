@@ -1,117 +1,260 @@
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { companyInfo, divisions } from '../data/siteData'
-import { products } from '../data/products'
-
-const featureCards = [
-  {
-    title: 'Trusted Fertilizers',
-    description:
-      'Premium fertilizers sourced from leading manufacturers, tailored for local crops.',
-    image:
-      'https://images.unsplash.com/photo-1593840890080-5e2ab8c6f938?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    title: 'Easy Ordering',
-    description:
-      'Add products to cart and send your order instantly — we’ll follow up to confirm.',
-    image:
-      'https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    title: 'Field Support',
-    description:
-      'Get expert agronomy advice for better yields and sustainable crop health.',
-    image:
-      'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=1200&q=80',
-  },
-]
-
-const featuredProducts = Object.values(products)
-  .flat()
-  .slice(0, 6)
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { companyInfo } from "../data/siteData";
+import "./Home.css";
 
 export default function Home() {
+  const [step, setStep] = useState(0);
+
+  const steps = [
+    {
+      title: "Browse Products",
+      desc: "Explore fertilizers, seeds & crop solutions tailored for your farm.",
+    },
+    {
+      title: "Add to Cart",
+      desc: "Select required items and place order in seconds.",
+    },
+    {
+      title: "We Confirm",
+      desc: "Our team connects with you for pricing & delivery.",
+    },
+    {
+      title: "Better Yield 🌾",
+      desc: "Grow more with trusted agricultural solutions.",
+    },
+  ];
+
+  // 🔥 AUTO STEP ANIMATION
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate--active')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.25 }
-    )
+    const interval = setInterval(() => {
+      setStep((prev) => (prev + 1) % steps.length);
+    }, 2500);
 
-    document.querySelectorAll('[data-animate]').forEach((el) => {
-      observer.observe(el)
-    })
+    return () => clearInterval(interval);
+  }, []);
 
-    return () => observer.disconnect()
-  }, [])
+  const images = [
+  "https://images.unsplash.com/photo-1501004318641-b39e6451bec6",
+  "https://images.unsplash.com/photo-1464226184884-fa280b87c399",
+  "https://images.unsplash.com/photo-1471193945509-9ad0617afabf",
+  "https://images.unsplash.com/photo-1500595046743-cd271d694d30",
+];
+
+const [imageIndex, setImageIndex] = useState(0);
+
+const features = [
+  {
+    name: "Fertilizers",
+    icon: "🌾",
+    img: "https://images.unsplash.com/photo-1589927986089-35812388d1f4",
+    desc: "Boost soil fertility and improve crop productivity with high-quality fertilizers.",
+  },
+  {
+    name: "Seeds",
+    icon: "🌱",
+    img: "https://images.unsplash.com/photo-1598514982841-3e1d5b5b8b5f",
+    desc: "Premium quality seeds for better germination and higher yield.",
+  },
+  {
+    name: "Pesticides & Fungicides",
+    icon: "🛡️",
+    img: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449",
+    desc: "Protect crops from pests and diseases with effective solutions.",
+  },
+  {
+    name: "Guidance",
+    icon: "👨‍🌾",
+    img: "https://images.unsplash.com/photo-1500595046743-cd271d694d30",
+    desc: "Expert field advice to help farmers take better decisions.",
+  },
+];
+useEffect(() => {
+  const slider = setInterval(() => {
+    setImageIndex((prev) => (prev + 1) % images.length);
+  }, 3000);
+
+  return () => clearInterval(slider);
+}, []);
 
   return (
     <section className="home">
-      <div className="hero" data-animate="fade-up">
-        <div className="hero__overlay" aria-hidden="true" />
-        <div className="hero__content">
-          <div className="hero__info">
-            <h1>Grow with {companyInfo.name}</h1>
-            <p className="hero__lead">
-              Your local partner for fertilizers, crop protection, seeds and expert
-              field support.
-            </p>
 
-            <div className="hero__actions">
-            <Link to="/products" className="button">
-              View products
-            </Link>
-            <Link to="/divisions" className="button button--secondary">
-              Browse divisions
-            </Link>
+      {/* 🔥 HERO */}
+     {/* 🔥 HERO SPLIT */}
+{/* 🔥 HERO CARDS */}
+<div className="hero-wrapper">
+
+  {/* LEFT CARD */}
+  <div className="hero-card left">
+    <div className="hero-content">
+      <h1>
+        Grow with <span>VELAVAN AGRO CENTRE</span>
+      </h1>
+
+      <p>
+        Your trusted partner for fertilizers, crop protection, seeds & expert field support.
+      </p>
+
+      <div className="hero-buttons">
+        <Link to="/home/products" className="btn-primary">
+          View Products
+        </Link>
+
+        <Link to="/home/divisions" className="btn-secondary">
+          Browse Divisions
+        </Link>
+      </div>
+
+      <div className="hero-badges">
+        <span>🌱 Since 1972</span>
+        <span>📍 Karumathampatti</span>
+        <span>🤝 Family Owned</span>
+      </div>
+    </div>
+  </div>
+
+  {/* RIGHT IMAGE CARD */}
+  <div className="hero-card right">
+    <img src={images[imageIndex]} alt="farm" />
+  </div>
+
+</div>
+
+
+
+      {/* 🔥 WHY US (CARDS) */}
+      <section className="why">
+        <h2>Why Choose Us</h2>
+
+        <div className="why-grid">
+          <div className="why-card">
+            <h3>🌱 Quality Products</h3>
+            <p>Only trusted fertilizers & crop solutions from top brands.</p>
           </div>
 
-          <div className="hero__badges">
-            <span>Since {companyInfo.established}</span>
-            <span>{companyInfo.location}</span>
-            <span>Family owned</span>
+          <div className="why-card">
+            <h3>⚡ Fast Service</h3>
+            <p>Quick order processing with reliable delivery support.</p>
+          </div>
+
+          <div className="why-card">
+            <h3>🤝 Expert Guidance</h3>
+            <p>Get advice from experienced agriculture professionals.</p>
           </div>
         </div>
+      </section>
+
+      {/* 🔥 UNIQUE FLOW TIMELINE */}
+
+{/* 🔥 FLOW SECTION (FIXED) */}
+<section className="flow-wrapper">
+
+  {/* LEFT CARD - FLOW STYLE */}
+{/* LEFT CARD - IMAGE + TEXT PREMIUM */}
+<div className="flow-card left contact-left">
+
+  <div className="contact-overlay">
+
+    <h1>Let’s Grow Together 🌱</h1>
+
+    <p>
+      From seeds to harvest, we provide everything farmers need
+      to achieve better yield and sustainable growth.
+    </p>
+
+    {/* HIGHLIGHTS */}
+    <div className="contact-highlights">
+      <span>🌾 50+ Years Experience</span>
+      <span>🚚 Fast Support</span>
+      <span>🤝 Trusted by Farmers</span>
+    </div>
+
+    {/* STATS */}
+    <div className="contact-stats">
+      <div>
+        <h3>1000+</h3>
+        <p>Farmers Served</p>
       </div>
 
-        <div className="hero__visual" aria-hidden="true" />
+      <div>
+        <h3>Top Brands</h3>
+        <p>IFFCO • YARA</p>
       </div>
-
-     <section className="home__intro" data-animate="fade-up">
-
-  <div className="intro-card">
-
-    <h2>Why choose us?</h2>
-
-    <ul>
-      <li>✔ Trusted agriculture products with quality assurance</li>
-      <li>✔ Fast ordering & reliable delivery support</li>
-      <li>✔ Expert agronomy guidance for every crop cycle</li>
-    </ul>
+    </div>
 
   </div>
 
+</div>
 
-  <div className="intro-card">
+  {/* RIGHT CARD */}
+  <div className="flow-card right">
+    <h2>Get Started in Minutes</h2>
 
-    <h2>Get started in minutes</h2>
+    <div className="timeline">
+      {steps.map((item, index) => (
+        <div
+          key={index}
+          className={`timeline-step ${
+            step === index ? "active" : ""
+          } ${step > index ? "completed" : ""}`}
+        >
+          <div className="tick">
+            {step > index ? "✔" : step === index ? "✓" : ""}
+          </div>
 
-    <ol>
-      <li>Browse products or select a division</li>
-      <li>Add items to your cart and place an order</li>
-      <li>We’ll follow up to finalize delivery and pricing</li>
-    </ol>
+          <div className="content">
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+        </div>
+      ))}
 
+      <div className="timeline-line">
+        <div
+          className="timeline-progress"
+          style={{ height: `${(step + 1) * 25}%` }}
+        />
+      </div>
+    </div>
+
+    {step === steps.length - 1 && (
+      <div className="final-success">
+        <div className="big-tick">✔</div>
+        <h3>You're Ready to Grow 🚀</h3>
+      </div>
+    )}
   </div>
 
 </section>
+
+      {/* 🔥 ACHIEVEMENT */}
+      <section className="achievement">
+        <div className="achievement-box">
+          <h2>Trusted Since 1972</h2>
+          <p>Serving generations of farmers with reliability & growth</p>
+
+          <div className="numbers">
+            <div>
+              <h3>50+</h3>
+              <p>Years Experience</p>
+            </div>
+
+            <div>
+              <h3>1000+</h3>
+              <p>Farmers Served</p>
+            </div>
+
+            <div>
+              <h3>Top Brands</h3>
+              <p>IFFCO • YARA • Coromandel</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 🔥 CTA */}
+
     </section>
-  )
+  );
 }

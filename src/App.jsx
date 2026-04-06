@@ -20,6 +20,8 @@ import NotFound from "./components/NotFound";
 import { CartProvider } from "./contexts/CartContext";
 import "./App.css";
 
+import AdminProducts from "./pages/Admin/Products";
+
 export default function App() {
   return (
     <CartProvider>
@@ -55,4 +57,7 @@ export default function App() {
       </BrowserRouter>
     </CartProvider>
   );
-}
+  }
+
+
+
