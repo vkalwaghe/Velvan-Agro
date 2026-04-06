@@ -20,8 +20,7 @@ import NotFound from "./components/NotFound";
 import { CartProvider } from "./contexts/CartContext";
 import "./App.css";
 
-import AdminLogin from "./pages/Admin/Login";
-import AdminDashboard from "./pages/Admin/Dashboard";
+import AdminProducts from "./pages/Admin/Products";
 
 export default function App() {
   return (
@@ -29,35 +28,37 @@ export default function App() {
       <BrowserRouter>
         <Routes>
 
-          {/* ✅ Landing page */}
-          <Route path="/" element={<Landing />} />
-          {/* ✅ Auth page */}
-          <Route path="/auth" element={<Auth />} />
-          {/* ✅ Admin Login */}
-          <Route path="/admin-login" element={<AdminLogin />} />  
+  {/* Landing */}
+  <Route path="/" element={<Landing />} />
 
-          {/* ✅ Main app */}
-          <Route path="/home" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="products" element={<Products />} />
-            <Route path="divisions" element={<Divisions />} />
-            <Route path="division/:division" element={<DivisionPage />} />
-            <Route path="dealerships" element={<Dealerships />} />
-            <Route path="cart" element={<CartPage />} />
-            <Route path="order" element={<Order />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="checkout" element={<CheckoutPage />} />
+  {/* Auth */}
+  <Route path="/auth" element={<Auth />} />
+  <Route path="/admin-login" element={<AdminLogin />} />
 
-             {/* Admin Routes */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          </Route>
+  {/* Layout Wrapper */}
+  <Route element={<Layout />}>
 
-          {/* ✅ 404 */}
-          <Route path="*" element={<NotFound />} />
+    <Route path="/home" element={<Home />} />
+    <Route path="/products" element={<Products />} />
+    <Route path="/divisions" element={<Divisions />} />
+    <Route path="/division/:division" element={<DivisionPage />} />
+    <Route path="/dealerships" element={<Dealerships />} />
+    <Route path="/cart" element={<CartPage />} />
+    <Route path="/order" element={<Order />} />
+    <Route path="/contact" element={<Contact />} />
+    <Route path="/checkout" element={<CheckoutPage />} />
+    <Route path="/admin/products" element={<AdminProducts />} />
 
-        </Routes>
+  </Route>
+
+  {/* 404 */}
+  <Route path="*" element={<NotFound />} />
+
+</Routes>
       </BrowserRouter>
     </CartProvider>
   );
 }
+
+
+
