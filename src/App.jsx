@@ -34,6 +34,12 @@ export default function App() {
   {/* Auth */}
   <Route path="/auth" element={<Auth />} />
   <Route path="/admin-login" element={<AdminLogin />} />
+  {/* Landing */}
+  <Route path="/" element={<Landing />} />
+
+  {/* Auth */}
+  <Route path="/auth" element={<Auth />} />
+  <Route path="/admin-login" element={<AdminLogin />} />
 
   {/* Layout Wrapper */}
   <Route element={<Layout />}>
@@ -53,7 +59,10 @@ export default function App() {
 
   {/* 404 */}
   <Route path="*" element={<NotFound />} />
+  {/* 404 */}
+  <Route path="*" element={<NotFound />} />
 
+</Routes>
 </Routes>
       </BrowserRouter>
     </CartProvider>
