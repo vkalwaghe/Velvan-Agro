@@ -24,17 +24,17 @@ export const divisions = [
   {
     name: 'Fungicides',
     image:
-      'https://agritech.tnau.ac.in/crop_protection/images/fungicide.jpg',
+      'https://www.upl-ltd.com/images/fungicide/UPL-Fungicide-Landing-Image.jpg',
   },
   {
     name: 'Herbicides',
     image:
-      'https://cdn.britannica.com/54/1954-050-7EEDB3E1/herbicides.jpg',
+      'https://th.bing.com/th/id/OIP.UHaGoa9dW6pXDCap41rHyAHaE8?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3',
   },
   {
     name: 'Seeds',
     image:
-      'https://www.agrifarming.in/wp-content/uploads/2020/02/Seed-Treatment.jpg',
+      'https://img.freepik.com/premium-photo/farmer-sowing-seeds-fertile-soil-sunny-day-beginning-process-planting-crops-bountiful-harvest-season_1162141-14998.jpg?w=2000',
   },
 ]
 

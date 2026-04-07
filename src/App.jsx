@@ -47,7 +47,6 @@ export default function App() {
     <Route path="/order" element={<Order />} />
     <Route path="/contact" element={<Contact />} />
     <Route path="/checkout" element={<CheckoutPage />} />
-    <Route path="/admin/products" element={<AdminProducts />} />
 
   </Route>
 

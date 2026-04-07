@@ -1,0 +1,108 @@
+.dealerships {
+  padding: 40px 20px;
+  background: #f9fafb;
+  font-family: Arial, sans-serif;
+}
+
+.dealerships h1 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.section__lead {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* Search */
+.dealerships__search {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.dealerships__search input {
+  width: 300px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.dealerships__search input:focus {
+  border-color: #2e7d32;
+}
+
+/* Sections */
+.dealerships__section {
+  margin-bottom: 40px;
+}
+
+.dealerships__section h2 {
+  margin-bottom: 15px;
+  color: #2e7d32;
+}
+
+/* Grid */
+.dealerships__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Card */
+.dealerships__card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  transition: 0.3s ease;
+}
+
+.dealerships__card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Image */
+.dealerships__cardImage {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Body */
+.dealerships__cardBody {
+  padding: 12px;
+}
+
+.dealerships__cardTitle {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Map link */
+.mapLink {
+  font-size: 14px;
+  color: #2e7d32;
+  text-decoration: none;
+}
+
+.mapLink:hover {
+  text-decoration: underline;
+}
+
+/* Empty */
+.empty {
+  color: #888;
+}
+
+/* Note */
+.dealerships__note {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 13px;
+  color: #999;
+}
