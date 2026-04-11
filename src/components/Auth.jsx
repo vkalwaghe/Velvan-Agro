@@ -2,6 +2,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect} from "react";
 import { motion } from "framer-motion";
+import { loginUser } from "../services/authService";
 import "./Auth.css";
 
 
@@ -38,14 +39,33 @@ useEffect(() => {
     password: "",
   });
 
-  // 🔄 Handle Input Change
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
+  
+  // 🔄 Handle Input Change
+  const handleSubmit = (e) => {
+  e.preventDefault();
 
+  if (isSignup) {
+    alert("Signup disabled (demo mode)");
+    return;
+  }
+
+  const result = loginUser(formData.email, formData.password);
+
+  if (result.success) {
+    alert("Login Successful ✅");
+
+    localStorage.setItem("user", JSON.stringify(result.user));
+
+    const redirectPath =
+      localStorage.getItem("redirectAfterLogin") || "/home";
+
+    localStorage.removeItem("redirectAfterLogin");
   // 🚀 Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,10 +112,11 @@ useEffect(() => {
                 alert(data.message);
       }
 
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
+    navigate(redirectPath);
+  } else {
+    alert(result.message);
+  }
+};
 
   return (
     <div className={`agro-auth-wrapper ${isSignup ? "register" : "login"}`}>

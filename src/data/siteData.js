@@ -52,6 +52,10 @@ export const dealerships = {
       name: 'KRIBHCO LTD',
       image: 'https://www.icexindia.com/images/default-source/partners/kribhco_logo.jpg',
     },
+    {
+      name: 'MADRAS FERTILIZERS LTD',
+      image: 'https://questionpapershub.com/free-job-alert/wp-content/uploads/2021/02/mfl-recruitment-2021-1068x690.png',
+    },
   ],
 
   waterSoluble: [
@@ -60,8 +64,16 @@ export const dealerships = {
       image: 'https://th.bing.com/th/id/OIP.zu_9ABgwAsUel0Bte9qZswHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3',
     },
     {
+      name: 'MADRAS FERTILIZERS LTD',
+      image: 'https://questionpapershub.com/free-job-alert/wp-content/uploads/2021/02/mfl-recruitment-2021-1068x690.png',
+    },
+    {
       name: 'ICL - ISRAEL CHEMICALS LTD',
       image: 'https://th.bing.com/th/id/R.707d217363f20924bbd48cb828424ca0?rik=vp2g%2bwA85iYRKA&riu=http%3a%2f%2fi.forbesimg.com%2fmedia%2flists%2fcompanies%2ficl-israel-chemicals_416x416.jpg&ehk=3nJE4tTO38tD1yHGPi2XIFYKBfWxZsuvTQ8jb5ArtdM%3d&risl=&pid=ImgRaw&r=0',
+    },
+    {
+      name: 'KRIBHCO LTD',
+      image: 'https://www.icexindia.com/images/default-source/partners/kribhco_logo.jpg',
     },
   ],
 
@@ -73,6 +85,14 @@ export const dealerships = {
     {
       name: 'GHARDA CHEMICALS LTD',
       image: 'https://tse3.mm.bing.net/th/id/OIP.iKCQRuh4OxpRmx1Dl5DsCgHaED?rs=1&pid=ImgDetMain&o=7&rm=3',
+    },
+    {
+      name: 'MADRAS FERTILIZERS LTD',
+      image: 'https://questionpapershub.com/free-job-alert/wp-content/uploads/2021/02/mfl-recruitment-2021-1068x690.png',
+    },
+    {
+      name: 'KRIBHCO LTD',
+      image: 'https://www.icexindia.com/images/default-source/partners/kribhco_logo.jpg',
     },
   ],
 };

@@ -1,10 +1,11 @@
 .division-page {
   padding: 40px;
   background: #f5f7f5;
+  text-align: center;
 }
 
 .division-page h1 {
-  text-align: center;
+  text-align: center ;
   color: #1c4d2b;
   margin-bottom: 20px;
 }
@@ -53,11 +54,70 @@
   padding: 6px 12px;
   border: none;
   background: #1c4d2b;
-  color: white;
+  color: rgb(255, 255, 255);
   border-radius: 6px;
   cursor: pointer;
 }
 
 .add-btn:hover {
   background: #267a42;
+}
+
+.division-nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.division-nav__link {
+  padding: 8px 14px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #1c4d2b;
+  border: 1px solid #1c4d2b;
+  transition: 0.3s;
+}
+
+/* Hover */
+.division-nav__link:hover {
+  background: #e6efe6;
+}
+
+/* ✅ ACTIVE TAB */
+.division-nav__link.active {
+  background: #1c4d2b;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.division-page .section__lead {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+/* Top bar */
+.division-page__topbar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+}
+
+/* Back button */
+.back-btn {
+  text-decoration: none;
+  color: #1c4d2b;
+  border: 1px solid #1c4d2b;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+/* Hover effect */
+.back-btn:hover {
+  background: #1c4d2b;
+  color: white;
 }

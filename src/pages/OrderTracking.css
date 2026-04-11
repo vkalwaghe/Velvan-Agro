@@ -1,0 +1,64 @@
+.tracking-page {
+  padding: 20px;
+  text-align: center;
+}
+
+.tracking-page h2 {
+  color: #1c4d2b;
+}
+
+.status {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #267a42;
+}
+
+.map {
+  height: 400px;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.eta {
+  font-weight: bold;
+  color: #ff9800;
+  margin-bottom: 10px;
+}
+
+.tracking-items {
+  margin-top: 20px;
+  text-align: left;
+  padding: 10px;
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .map {
+    height: 300px;
+  }
+}
+
+.leaflet-marker-icon {
+  transition: transform 0.3s linear;
+}
+
+.delivery-pulse {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(0, 128, 0, 0.3);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

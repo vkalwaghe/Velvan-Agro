@@ -59,6 +59,8 @@
   overflow: hidden;
   border: 1px solid #eee;
   transition: 0.3s ease;
+  height: 200px;
+  width: 300px;
 }
 
 .dealerships__card:hover {

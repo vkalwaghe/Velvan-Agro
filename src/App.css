@@ -1010,3 +1010,10 @@ a {
   font-size: 13px;
   opacity: 0.8;
 }
+
+.section__lead {
+  color: rgba(0, 0, 0, 0.7);
+  margin: 14px auto 24px;
+  max-width: 720px;
+  text-align: center;
+}

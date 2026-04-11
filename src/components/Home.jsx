@@ -97,11 +97,11 @@ useEffect(() => {
       </p>
 
       <div className="hero-buttons">
-        <Link to="/home/products" className="btn-primary">
+        <Link to="/Products" className="btn-primary">
           View Products
         </Link>
 
-        <Link to="/home/divisions" className="btn-secondary">
+        <Link to="/Divisions" className="btn-secondary">
           Browse Divisions
         </Link>
       </div>
