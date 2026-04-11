@@ -41,7 +41,7 @@ export default function Landing() {
         <div onClick={() => navigate("/auth")}>
           👤 User 
         </div>
-        <div onClick={() => navigate("/admin-login")}>
+        <div onClick={() => navigate("/auth?admin=true")}>
           🛠 Admin 
         </div>
       </div>
