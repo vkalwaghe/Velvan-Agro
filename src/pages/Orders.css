@@ -1,3 +1,4 @@
+/* PAGE */
 .orders-page {
   padding: 30px;
   background: #f4f7f4;
@@ -30,46 +31,107 @@
   padding-bottom: 10px;
 }
 
-/* STATUS COLORS */
+/* STATUS */
 .status {
   padding: 6px 12px;
   border-radius: 8px;
   font-size: 12px;
+  height: fit-content;
+  width: fit-content;
 }
 
-.status.placed {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.status.shipped {
-  background: #d1ecf1;
-  color: #0c5460;
-}
-
+.status.placed { background: #fff3cd; }
+.status.shipped { background: #d1ecf1; }
+.status.out { background: #ffeeba; }
 .status.delivered {
   background: #e6f4ea;
   color: #2e7d32;
 }
 
-/* PROGRESS BAR */
-.order-progress {
+/* 🔥 TIMELINE */
+.order-timeline {
+  position: relative;
   display: flex;
   justify-content: space-between;
-  margin: 15px 0;
+  margin: 30px 0;
 }
 
-.step {
+/* BASE LINE */
+.progress-line {
+  position: absolute;
+  top: 20px;
+  left: calc(50% / 5);   /* start from center of first circle */
+  right: calc(50% / 3.5);  /* end at center of last circle */
+  height: 4px;
+  background: #ddd;
+  border-radius: 10px;
+  z-index: 0;
+}
+
+/* ✅ ANIMATED PROGRESS */
+.progress-fill {
+  height: 100%;
+  background: #2e7d32;
+  width: 0%;
+  border-radius: 10px;
+  transition: width 1s ease-in-out;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.progress-fill::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -4px;
+  width: 12px;
+  height: 12px;
+  background: #2e7d32;
+  border-radius: 50%;
+}
+
+/* STEP */
+.timeline-step {
   flex: 1;
   text-align: center;
-  font-size: 12px;
   position: relative;
-  color: #aaa;
+  z-index: 1;
 }
 
-.step.active {
-  color: #1c4d2b;
-  font-weight: bold;
+/* CIRCLE */
+.circle {
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  border-radius: 50%;
+  background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+}
+
+/* ✅ COMPLETED (FORCE APPLY) */
+.timeline-step.done .circle {
+  background-color: #2e7d32 !important;
+}
+
+.timeline-step.done p {
+  color: #2e7d32 !important;
+  font-weight: bold !important;
+}
+
+/* ✅ CURRENT STEP */
+.timeline-step.active .circle {
+  background: orange ;
+}
+
+/* TEXT */
+.timeline-step p {
+  margin-top: 8px;
+  font-size: 13px;
 }
 
 /* ITEMS */
@@ -115,29 +177,6 @@
   cursor: pointer;
 }
 
-.reorder-btn:hover {
-  background: #267a42;
-}
-
-.order-total {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-  .order-header,
-  .order-footer {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
-
-.status.out {
-  background: #ffeeba;
-  color: #856404;
-}
-
 .track-btn {
   background: #007bff;
   color: white;
@@ -147,81 +186,25 @@
   cursor: pointer;
 }
 
-.track-btn:hover {
-  background: #0056b3;
+.order-total {
+  font-weight: bold;
+  font-size: 16px;
 }
 
-/* 🔥 TIMELINE */
-.order-timeline {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20px 0;
-  position: relative;
-}
-
-/* line */
-.order-timeline::before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  left: 5%;
-  width: 90%;
-  height: 3px;
-  background: #ddd;
-  z-index: 0;
-}
-
-/* step */
-.timeline-step {
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  flex: 1;
-}
-
-/* circle */
-.circle {
-  width: 40px;
-  height: 40px;
-  margin: auto;
-  border-radius: 50%;
-  background: #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: white;
-}
-
-/* active / done */
-.timeline-step.done .circle {
-  background: #2e7d32;
-}
-
-.timeline-step.active .circle {
-  background: orange;
-}
-
-/* text */
-.timeline-step p {
-  margin-top: 8px;
-  font-size: 13px;
-}
-
-.timeline-step span {
-  font-size: 11px;
-  color: #888;
-}
-
-/* 📱 mobile */
+/* 📱 MOBILE */
 @media (max-width: 768px) {
+  .order-header,
+  .order-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .order-timeline {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .order-timeline::before {
+  .progress-line {
     display: none;
   }
 
@@ -229,7 +212,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 10px;
   }
 
   .circle {

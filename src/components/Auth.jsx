@@ -1,34 +1,26 @@
-
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { loginUser } from "../services/authService";
 import "./Auth.css";
 
-
 export default function Auth() {
-
-  // ✅ FIX: initialize navigate here
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [isSignup, setIsSignup] = useState(false);
-
   const [isAdminLogin, setIsAdminLogin] = useState(false);
 
-const location = useLocation();
+  // 🔍 Detect admin login from URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const admin = params.get("admin");
 
-useEffect(() => {
-  const params = new URLSearchParams(location.search);
-  const admin = params.get("admin");
-
-  console.log("Admin param:", admin); // DEBUG
-
-  if (admin === "true") {
-    setIsAdminLogin(true);
-  } else {
-    setIsAdminLogin(false);
-  }
-}, [location.search]);
+    if (admin === "true") {
+      setIsAdminLogin(true);
+    } else {
+      setIsAdminLogin(false);
+    }
+  }, [location.search]);
 
   // 🔥 Form State
   const [formData, setFormData] = useState({
@@ -39,34 +31,15 @@ useEffect(() => {
     password: "",
   });
 
+  // 🔄 Handle Input Change
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-  
-  // 🔄 Handle Input Change
-  const handleSubmit = (e) => {
-  e.preventDefault();
 
-  if (isSignup) {
-    alert("Signup disabled (demo mode)");
-    return;
-  }
-
-  const result = loginUser(formData.email, formData.password);
-
-  if (result.success) {
-    alert("Login Successful ✅");
-
-    localStorage.setItem("user", JSON.stringify(result.user));
-
-    const redirectPath =
-      localStorage.getItem("redirectAfterLogin") || "/home";
-
-    localStorage.removeItem("redirectAfterLogin");
-  // 🚀 Handle Submit
+  // 🚀 Handle Submit (Fixed)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -81,42 +54,39 @@ useEffect(() => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-              ...formData,
-              isAdmin: isAdminLogin
-            }),
+          ...formData,
+          isAdmin: isAdminLogin,
+        }),
       });
 
       const data = await res.json();
 
-        if (res.ok) {
-              
-          // ✅ Signup
-          if (isSignup) {
-            alert("Registration Successful 🎉");
-            setIsSignup(false);
-            return;
-          }
-        
-          // ✅ Login
-          alert("Login Successful ✅");
-        
-          localStorage.setItem("user", JSON.stringify(data.user));
-        
-          if (isAdminLogin) {
-            navigate("/admin/products");
-          } else {
-            navigate("/home");
-          }
-        
-        } else {
-                alert(data.message);
-      }
+      if (res.ok) {
+        // ✅ Signup
+        if (isSignup) {
+          alert("Registration Successful 🎉");
+          setIsSignup(false);
+          return;
+        }
 
-    navigate(redirectPath);
-  } else {
-    alert(result.message);
-  }
-};
+        // ✅ Login
+        alert("Login Successful ✅");
+
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        if (isAdminLogin) {
+          navigate("/admin/products");
+        } else {
+          navigate("/home");
+        }
+      } else {
+        alert(data.message || "Error occurred");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong ❌");
+    }
+  };
 
   return (
     <div className={`agro-auth-wrapper ${isSignup ? "register" : "login"}`}>
@@ -139,30 +109,55 @@ useEffect(() => {
             {isSignup && (
               <>
                 <div className="agro-input">
-                  <input type="text" name="name" onChange={handleChange} required />
+                  <input
+                    type="text"
+                    name="name"
+                    onChange={handleChange}
+                    required
+                  />
                   <label>Full Name</label>
                 </div>
 
                 <div className="agro-input">
-                  <input type="tel" name="number" onChange={handleChange} required />
+                  <input
+                    type="tel"
+                    name="number"
+                    onChange={handleChange}
+                    required
+                  />
                   <label>Mobile Number</label>
                 </div>
 
                 <div className="agro-input">
-                  <input type="text" name="location" onChange={handleChange} required />
+                  <input
+                    type="text"
+                    name="location"
+                    onChange={handleChange}
+                    required
+                  />
                   <label>Location (Village/City)</label>
                 </div>
               </>
             )}
 
-            {/* COMMON */}
+            {/* COMMON FIELDS */}
             <div className="agro-input">
-              <input type="email" name="email" onChange={handleChange} required />
+              <input
+                type="email"
+                name="email"
+                onChange={handleChange}
+                required
+              />
               <label>Email</label>
             </div>
 
             <div className="agro-input">
-              <input type="password" name="password" onChange={handleChange} required />
+              <input
+                type="password"
+                name="password"
+                onChange={handleChange}
+                required
+              />
               <label>Password</label>
             </div>
 

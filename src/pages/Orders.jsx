@@ -3,69 +3,84 @@ import { useCart } from "../contexts/CartContext";
 import "./Orders.css";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function Orders() {
-
   const [orders, setOrders] = useState([]);
   const { addItem } = useCart();
   const navigate = useNavigate();
 
+  // 🔥 Status flow
+  const statusOrder = ["placed", "shipped", "out", "delivered"];
+
+  // 🔥 Step class logic (correct)
+  const getStepClass = (currentStatus, step) => {
+    const currentIndex = statusOrder.indexOf(currentStatus);
+    const stepIndex = statusOrder.indexOf(step);
+
+    if (stepIndex < currentIndex) return "done";
+    if (stepIndex === currentIndex) return "active";
+    return "";
+  };
+
+  // 🔥 Progress line animation
+  const getProgressWidth = (status) => {
+    switch (status) {
+      case "placed":
+        return "0%";
+      case "shipped":
+        return "33%";
+      case "out":
+        return "66%";
+      case "delivered":
+        return "100%";
+      default:
+        return "0%";
+    }
+  };
+
+  // ✅ FIXED: Stable status update (NO RESET ISSUE)
   useEffect(() => {
+    const interval = setInterval(() => {
+      const savedOrders =
+        JSON.parse(localStorage.getItem("orders")) || [];
 
-      const interval = setInterval(() => {
-        const savedOrders =
-          JSON.parse(localStorage.getItem("orders")) || [];
+      const now = Date.now();
 
-        const now = Date.now();
+      const updatedOrders = savedOrders.map((order) => {
+        const diff = now - order.id;
 
-        const updatedOrders = savedOrders.map((order) => {
-          const diff = now - order.id;
+        let newStatus = order.status || "placed";
 
-          let status = "placed";
+        if (diff >= 30000) newStatus = "delivered";
+        else if (diff >= 20000 && newStatus !== "delivered")
+          newStatus = "out";
+        else if (
+          diff >= 10000 &&
+          !["out", "delivered"].includes(newStatus)
+        )
+          newStatus = "shipped";
 
-          if (diff > 10000) status = "shipped";
-          if (diff > 20000) status = "out";
-          if (diff > 30000) status = "delivered";
+        return { ...order, status: newStatus };
+      });
 
-          return { ...order, status };
-        });
+      // ✅ persist status
+      localStorage.setItem("orders", JSON.stringify(updatedOrders));
 
-        setOrders(updatedOrders.reverse());
+      setOrders(updatedOrders.reverse());
+    }, 2000);
 
-      }, 3000); // update every 3 sec
-
-      return () => clearInterval(interval);
-
-    }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   // 🔁 Reorder
   const handleReorder = (order) => {
     order.items.forEach((item) => {
       addItem(item, item.qty);
     });
-
     alert("Items added to cart 🛒");
-  };
-
-  // 🎯 Status UI
-  const getStatusClass = (status) => {
-    if (status === "delivered") return "status delivered";
-    if (status === "out") return "status out";
-    if (status === "shipped") return "status shipped";
-    return "status placed";
-  };
-
-  const getStatusLabel = (status) => {
-    if (status === "delivered") return "Delivered";
-    if (status === "out") return "Out for Delivery 🚚";
-    if (status === "shipped") return "Shipped";
-    return "Order Placed";
   };
 
   return (
     <div className="orders-page">
-
       <h1>Your Orders</h1>
 
       {orders.length === 0 ? (
@@ -81,29 +96,39 @@ export default function Orders() {
                 <p><strong>Date:</strong> {order.date}</p>
               </div>
 
-              <div className={getStatusClass(order.status)}>
-                {getStatusLabel(order.status)}
+              <div className={`status ${order.status}`}>
+                {order.status.toUpperCase()}
               </div>
             </div>
 
-            {/* PROGRESS BAR */}
-            <div className="order-progress">
+            {/* 🔥 TIMELINE */}
+            <div className="order-timeline">
 
-              <div className={`step ${order.status !== "placed" ? "active" : ""}`}>
-                Placed
+              {/* PROGRESS LINE */}
+              <div className="progress-line">
+                <div
+                  className="progress-fill"
+                  style={{ width: getProgressWidth(order.status) }}
+                ></div>
               </div>
 
-              <div className={`step ${["shipped","out","delivered"].includes(order.status) ? "active" : ""}`}>
-                Shipped
-              </div>
+              {statusOrder.map((step, index) => (
+                <div
+                  key={step}
+                  className={`timeline-step ${getStepClass(order.status, step)}`}
+                >
+                  <div className="circle">
+                    {index === 0 ? "✓" : index === 1 ? "📦" : index === 2 ? "🚚" : "🏠"}
+                  </div>
 
-              <div className={`step ${["out","delivered"].includes(order.status) ? "active" : ""}`}>
-                Out for Delivery
-              </div>
-
-              <div className={`step ${order.status === "delivered" ? "active" : ""}`}>
-                Delivered
-              </div>
+                  <p>
+                    {step === "placed" && "Order Placed"}
+                    {step === "shipped" && "Shipped"}
+                    {step === "out" && "Out for Delivery"}
+                    {step === "delivered" && "Delivered"}
+                  </p>
+                </div>
+              ))}
 
             </div>
 
@@ -111,55 +136,21 @@ export default function Orders() {
             <div className="order-items">
               {order.items.map((item) => (
                 <div key={item.id} className="order-item">
-
                   <img src={item.image} alt={item.name} />
-
                   <div>
                     <h4>{item.name}</h4>
                     <p>Qty: {item.qty}</p>
                     <p>₹{item.price}</p>
                   </div>
-
                 </div>
               ))}
             </div>
 
-            <div className="order-timeline">
-
-              <div className={`timeline-step ${order.status !== "placed" ? "done" : "active"}`}>
-                <div className="circle">✓</div>
-                <p>Order Placed</p>
-                <span>{order.date}</span>
-              </div>
-
-              <div className={`timeline-step ${["shipped","out","delivered"].includes(order.status) ? "done" : ""}`}>
-                <div className="circle">📦</div>
-                <p>Shipped</p>
-              </div>
-
-              <div className={`timeline-step ${["out","delivered"].includes(order.status) ? "done" : ""}`}>
-                <div className="circle">🚚</div>
-                <p>Out for Delivery</p>
-              </div>
-
-              <div className={`timeline-step ${order.status === "delivered" ? "done" : ""}`}>
-                <div className="circle">🏠</div>
-                <p>Delivered</p>
-              </div>
-
-            </div>
-
             {/* FOOTER */}
             <div className="order-footer">
-
               <div>
-                <p>
-                  <strong>Payment:</strong>{" "}
-                  {order.paymentMethod.toUpperCase()}
-                </p>
-                <p>
-                  <strong>Status:</strong> {order.paymentStatus}
-                </p>
+                <p><strong>Payment:</strong> {order.paymentMethod.toUpperCase()}</p>
+                <p><strong>Status:</strong> {order.paymentStatus}</p>
               </div>
 
               <div className="order-actions">
@@ -180,15 +171,12 @@ export default function Orders() {
                 <span className="order-total">
                   ₹{order.total.toFixed(2)}
                 </span>
-
               </div>
-
             </div>
 
           </div>
         ))
       )}
-
     </div>
   );
 }
