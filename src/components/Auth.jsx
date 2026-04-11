@@ -1,8 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect} from "react";
 import { motion } from "framer-motion";
 import { loginUser } from "../services/authService";
 import "./Auth.css";
+
 
 export default function Auth() {
 
@@ -10,6 +12,23 @@ export default function Auth() {
   const navigate = useNavigate();
 
   const [isSignup, setIsSignup] = useState(false);
+
+  const [isAdminLogin, setIsAdminLogin] = useState(false);
+
+const location = useLocation();
+
+useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  const admin = params.get("admin");
+
+  console.log("Admin param:", admin); // DEBUG
+
+  if (admin === "true") {
+    setIsAdminLogin(true);
+  } else {
+    setIsAdminLogin(false);
+  }
+}, [location.search]);
 
   // 🔥 Form State
   const [formData, setFormData] = useState({
@@ -47,6 +66,51 @@ export default function Auth() {
       localStorage.getItem("redirectAfterLogin") || "/home";
 
     localStorage.removeItem("redirectAfterLogin");
+  // 🚀 Handle Submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const url = isSignup
+      ? "http://localhost:5000/api/register"
+      : "http://localhost:5000/api/login";
+
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+              ...formData,
+              isAdmin: isAdminLogin
+            }),
+      });
+
+      const data = await res.json();
+
+        if (res.ok) {
+              
+          // ✅ Signup
+          if (isSignup) {
+            alert("Registration Successful 🎉");
+            setIsSignup(false);
+            return;
+          }
+        
+          // ✅ Login
+          alert("Login Successful ✅");
+        
+          localStorage.setItem("user", JSON.stringify(data.user));
+        
+          if (isAdminLogin) {
+            navigate("/admin/products");
+          } else {
+            navigate("/home");
+          }
+        
+        } else {
+                alert(data.message);
+      }
 
     navigate(redirectPath);
   } else {
