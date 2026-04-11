@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { loginUser } from "../services/authService";
 import "./Auth.css";
 
 export default function Auth() {
@@ -19,59 +20,39 @@ export default function Auth() {
     password: "",
   });
 
-  // 🔄 Handle Input Change
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
+  
+  // 🔄 Handle Input Change
+  const handleSubmit = (e) => {
+  e.preventDefault();
 
-  // 🚀 Handle Submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  if (isSignup) {
+    alert("Signup disabled (demo mode)");
+    return;
+  }
 
-    const url = isSignup
-      ? "http://localhost:5000/api/register"
-      : "http://localhost:5000/api/login";
+  const result = loginUser(formData.email, formData.password);
 
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  if (result.success) {
+    alert("Login Successful ✅");
 
-      const data = await res.json();
+    localStorage.setItem("user", JSON.stringify(result.user));
 
-      if (res.ok) {
+    const redirectPath =
+      localStorage.getItem("redirectAfterLogin") || "/home";
 
-        // ✅ Signup
-        if (isSignup) {
-          alert("Registration Successful 🎉");
-          setIsSignup(false); // switch to login
-        }
+    localStorage.removeItem("redirectAfterLogin");
 
-        // ✅ Login
-        else {
-          alert("Login Successful ✅");
-
-          localStorage.setItem("user", JSON.stringify(data.user));
-
-          // 🔥 REDIRECT WORKS NOW
-          navigate("/home");
-        }
-
-      } else {
-        alert(data.message);
-      }
-
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
+    navigate(redirectPath);
+  } else {
+    alert(result.message);
+  }
+};
 
   return (
     <div className={`agro-auth-wrapper ${isSignup ? "register" : "login"}`}>

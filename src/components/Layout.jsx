@@ -16,11 +16,12 @@ export default function Layout() {
         </div>
 
         <nav className="primary-nav" aria-label="Primary">
-          <NavLink to="/" end>
+          <NavLink to="/home" end>
             Home
           </NavLink>
           <NavLink to="/products">Products</NavLink>
           <NavLink to="/divisions">Divisions</NavLink>
+          <NavLink to="/category">Category</NavLink>
           <NavLink to="/dealerships">Dealerships</NavLink>
           <NavLink to="/order">Order</NavLink>
           <NavLink to="/contact">Contact</NavLink>
