@@ -41,46 +41,46 @@ export default function CheckoutPage() {
   };
 
   // 🚀 Place Order
-  const handleOrder = () => {
+  const handleOrder = async () => {
 
-    if (!form.name || !form.phone || !form.address) {
-      setError("Please fill all fields");
-      return;
-    }
+      if (!form.name || !form.phone || !form.address) {
+        setError("Please fill all fields");
+        return;
+      }
 
-    // 💳 Payment Simulation
-    if (paymentMethod === "upi") {
-      alert("Opening UPI app... 📱");
-    } else if (paymentMethod === "razorpay") {
-      alert("Redirecting to Razorpay... 💳");
-    } else {
-      alert("Cash on Delivery selected 💵");
-    }
+      // 🟢 UPI Simulation
+      if (paymentMethod === "upi") {
+        alert("Opening UPI app... 📱");
+      }
 
-    // 🧾 Create Order
-    const order = {
-      id: Date.now(),
-      items,
-      total: finalTotal,
-      paymentMethod,
-      paymentStatus:
-        paymentMethod === "cod" ? "Pending" : "Paid",
-      date: new Date().toLocaleString(),
+      // 🟢 Razorpay Simulation
+      if (paymentMethod === "razorpay") {
+        alert("Redirecting to Razorpay... 💳");
+      }
+
+      // 🧾 Create Order
+      const order = {
+        id: Date.now(),
+        items,
+        total: finalTotal,
+        paymentMethod,
+        paymentStatus:
+          paymentMethod === "cod" ? "Pending" : "Paid",
+        date: new Date().toLocaleString(),
+      };
+
+      const oldOrders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+
+      localStorage.setItem(
+        "orders",
+        JSON.stringify([...oldOrders, order])
+      );
+
+      alert("Order placed successfully ✅");
+
+      navigate("/orders");
     };
-
-    const oldOrders =
-      JSON.parse(localStorage.getItem("orders")) || [];
-
-    localStorage.setItem(
-      "orders",
-      JSON.stringify([...oldOrders, order])
-    );
-
-    alert("Order placed successfully ✅");
-
-    // 🔥 Redirect to tracking
-    navigate(`/track/${order.id}`);
-  };
 
   return (
     <div className="checkouts">
@@ -115,6 +115,7 @@ export default function CheckoutPage() {
 
           <h3>Select Payment Method</h3>
 
+          {/* COD */}
           <label className="payment-option">
             <input
               type="radio"
@@ -125,6 +126,7 @@ export default function CheckoutPage() {
             💵 Cash on Delivery
           </label>
 
+          {/* UPI */}
           <label className="payment-option">
             <input
               type="radio"
@@ -135,6 +137,7 @@ export default function CheckoutPage() {
             📱 UPI (GPay / PhonePe)
           </label>
 
+          {/* Razorpay */}
           <label className="payment-option">
             <input
               type="radio"
@@ -142,7 +145,7 @@ export default function CheckoutPage() {
               checked={paymentMethod === "razorpay"}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
-            💳 Razorpay
+            💳 Razorpay (Card / Netbanking)
           </label>
 
         </div>

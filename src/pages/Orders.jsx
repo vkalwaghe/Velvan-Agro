@@ -157,6 +157,9 @@ export default function Orders() {
                   <strong>Payment:</strong>{" "}
                   {order.paymentMethod.toUpperCase()}
                 </p>
+                <p>
+                  <strong>Status:</strong> {order.paymentStatus}
+                </p>
               </div>
 
               <div className="order-actions">
